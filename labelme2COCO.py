@@ -165,4 +165,10 @@ labelme_json = glob.glob('{}/*.json'.format(args.labeled_dir))
 labelme_json_train, labelme_json_val = train_test_split(labelme_json)
 labelme = labelme2coco(labelme_json_train, '{}/train.json'.format(args.output_dir))
 labelme2coco(labelme_json_val, '{}/val.json'.format(args.output_dir), labelme.categories, labelme.label)
-print(labelme.categories)
+#print(labelme.categories)
+
+id2class = dict()
+id2class[0] = 'BG'
+for info in labelme.categories:
+    id2class[info['id']] = info['name']
+print(id2class)

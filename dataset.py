@@ -1,5 +1,9 @@
 # 数据生成器，数据集的格式为coco的格式，可以直接使用代码将
-
+from pycocotools.coco import COCO
+from pycocotools.cocoeval import COCOeval
+from pycocotools import mask as maskUtils
+import numpy as np
+import os
 
 class Dataset(object):
     """The base class for dataset classes.
@@ -77,18 +81,15 @@ class Dataset(object):
                                       for info, id in zip(self.class_info, self.class_ids)}  # 做好类别名称的映射
 
         # Map sources to class_ids they support
-        self.sources = list(set([i['source'] for i in self.class_info]))
         self.source_class_ids = {}
         # Loop over datasets
-        for source in self.sources:
-            self.source_class_ids[source] = []
-            # Find classes that belong to this dataset
-            for i, info in enumerate(self.class_info):
-                # Include BG class in all datasets
-                if i == 0 or source == info['source']:
-                    self.source_class_ids[source].append(i)
+        #for source in self.sources:
+        self.source_class_ids = []
+        # Find classes that belong to this dataset
+        for i, info in enumerate(self.class_info):
+            self.source_class_ids.append(i)
 
-        print(self.class_from_source_map)
+        #print(self.class_from_source_map)
 
     def map_source_class_id(self, source_class_id):
         """Takes a source class ID and returns the int class ID assigned to it.
@@ -215,7 +216,7 @@ class CocoDataset(Dataset):
     #         return coco
 
 
-class OwnDataset(CocoDataset):
+class OwnDataset(Dataset):
     def load_own(self, json_path, image_dir, return_coco=False):
         coco = COCO(json_path)
         class_ids = sorted(coco.getCatIds())

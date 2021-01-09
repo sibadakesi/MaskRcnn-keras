@@ -1,4 +1,6 @@
-
+import datetime
+import os
+import re
 
 class MaskRcnn(object):
     def __init__(self,mode,config,model_dir):
@@ -36,11 +38,11 @@ class MaskRcnn(object):
                 self.epoch = int(m.group(6)) + 1
 
         # Directory for training logs
-        self.log_dir = os.path.join(self.model_dir, "{}{:%Y%m%dT%H%M}".format(
-            self.config.NAME.lower(), now))
+        self.log_dir = os.path.join(self.model_dir, "{:%Y%m%dT%H%M}".format(
+          now))
 
         # Path to save after each epoch. Include placeholders that get filled by Keras.
-        self.checkpoint_path = os.path.join(self.log_dir, "mask_rcnn_{}_*epoch*.h5".format(
-            self.config.NAME.lower()))
+        self.checkpoint_path = os.path.join(self.log_dir, "mask_rcnn_*epoch*.h5".format(
+         ))
         self.checkpoint_path = self.checkpoint_path.replace(
             "*epoch*", "{epoch:04d}")
