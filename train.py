@@ -3,9 +3,8 @@ import time
 import numpy as np
 import argparse
 from config import MaskRcnnConfig
-import modelibe
 from dataset import OwnDataset
-
+import modelibe
 
 class OwnConfig(MaskRcnnConfig):
     """
@@ -41,9 +40,9 @@ if __name__ == '__main__':
     model = modelibe.MaskRcnn(mode="training", config=config,
                               model_dir=args.logs)
 
-    # model.load_weights('mask_rcnn_coco.h5', by_name=True,
-    #                    exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
-    #                             "mrcnn_bbox", "mrcnn_mask"])  # 这个是由coco数据集训练得出的，如果用自己的训练集，只能载入部分
+    model.load_weights('mask_rcnn_coco.h5', by_name=True,
+                       exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
+                                "mrcnn_bbox", "mrcnn_mask"])  # 这个是由coco数据集训练得出的，如果用自己的训练集，只能载入部分
 
     dataset_train = OwnDataset()
     dataset_train.load_own(args.traindata_json, args.traindata_dir)
@@ -52,6 +51,7 @@ if __name__ == '__main__':
     dataset_val = OwnDataset()
     dataset_val.load_own(args.valdata_json, args.valdata_dir)
     dataset_val.prepare()
+    from modelibe import compose_image_meta
     # training schedule ,分别是训练头部，提取特征部分，以及全部训练，全部训练将学习率缩小十倍，具体可以自行修改
     print("Training network heads")
     model.train(dataset_train, dataset_val,
