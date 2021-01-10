@@ -10,4 +10,12 @@
 ```
 python labelme2COCO.py --labeled_dir XXX --output_dir XXX --rate 0.3
 ```
-3，训练
+3，训练,traindata_json为转换训练集生成的train.json地址，--traindata_dir为标定的目录,也就是图片的目录
+```
+python train.py --traindata_json data/train.json --traindata_dir data/train --valdata_json data/val.json --valdata_dir data/train
+```
+4, 推断
+
+5, 评估
+
+# training schedule
