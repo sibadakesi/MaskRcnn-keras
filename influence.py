@@ -121,12 +121,11 @@ class MaskRcnn(object):
                 verts = np.fliplr(verts) - 1
                 verts = np.array([verts.astype(np.int32)])
                 image = cv2.polylines(image, verts, True, (0, 255, 0))
-
-        cv2.imshow("influence", image)
+        masked_image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        cv2.imshow("influence", masked_image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         if show_path:
-            masked_image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
             cv2.imwrite(show_path, masked_image)
 
 
@@ -150,5 +149,5 @@ if __name__ == '__main__':
     class_names = {}
 
     maskrcnn = MaskRcnn()
-    maskrcnn.init_app(class_names, args.model_path)
+    maskrcnn.init_app(args.model_path,class_names)
     maskrcnn.predict(args.img_path, save_path=args.show_path)
