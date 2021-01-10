@@ -147,11 +147,7 @@ if __name__ == '__main__':
     print("model: ", args.model_path)
     print("img_path", args.img_path)
 
-    class_names = {0: 'BG', 1: 'light', 2: 'treepolo', 3: 'markpole', 4: 'car', 5: 'electricalbox',
-                   6: 'voltagetransformer', 7: 'bicycle', 8: 'person', 9: 'telegraphpole', 10: 'garbage',
-                   11: 'airconditioner', 12: 'motorcycle', 13: 'shopsign', 14: 'othermark', 15: 'Independentsign',
-                   16: ' truck', 17: 'trafficlight', 18: 'telephonebox', 19: 'stopmark', 20: 'bus', 21: 'bench', 22
-                   : 'subwaymark'}
+    class_names = {}
 
     maskrcnn = MaskRcnn()
     maskrcnn.init_app(class_names, args.model_path)
