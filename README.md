@@ -10,3 +10,4 @@
 ```
 python labelme2COCO.py --labeled_dir XXX --output_dir XXX --rate 0.3
 ```
+3，训练
