@@ -29,7 +29,7 @@ if __name__ == '__main__':
                         help='path to  Validation dataset json file')
     parser.add_argument('--valdata_dir', required=True, help='path to Validation dataset dir ')
 
-    parser.add_argument('--pretrain_path', required=False, default=True)
+    parser.add_argument('--pretrain_path', required=False, default=None)
 
     args = parser.parse_args()
 
@@ -39,10 +39,10 @@ if __name__ == '__main__':
 
     model = modelibe.MaskRcnn(mode="training", config=config,
                               model_dir=args.logs)
-
-    model.load_weights('mask_rcnn_coco.h5', by_name=True,
-                       exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
-                                "mrcnn_bbox", "mrcnn_mask"])  # 这个是由coco数据集训练得出的，如果用自己的训练集，只能载入部分
+    if args.pretrain_path is not None:
+        model.load_weights('mask_rcnn_coco.h5', by_name=True,
+                           exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
+                                    "mrcnn_bbox", "mrcnn_mask"])  # 这个是由coco数据集训练得出的，如果用自己的训练集，只能载入部分
 
     dataset_train = OwnDataset()
     dataset_train.load_own(args.traindata_json, args.traindata_dir)
