@@ -16,7 +16,7 @@ python train.py --traindata_json data/train.json --traindata_dir data/train --va
 ```
 4, 推断,可以将步骤1输出的类别对应id的字典复制到influence代码， --model_path模型地址，--img_path为图片地址，--show_path是推断的结果保存的地址，默认不保存。
 ```
-python influence.py --model_path xx --img_path xx --show_path xx
+python Inference.py --model_path xx --img_path xx --show_path xx
 ```
 5, 评估
 
