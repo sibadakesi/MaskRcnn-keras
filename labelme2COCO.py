@@ -8,6 +8,7 @@ import numpy as np
 import glob
 import PIL.Image
 from sklearn.model_selection import train_test_split
+from tqdm import tqdm
 
 
 class labelme2coco(object):
@@ -31,7 +32,7 @@ class labelme2coco(object):
         self.save_json()
 
     def data_transfer(self):
-        for num, json_file in enumerate(self.labelme_json):
+        for num, json_file in tqdm(enumerate(self.labelme_json)):
             with open(json_file, 'r') as fp:
                 data = json.load(fp)  # 加载json文件
                 self.images.append(self.image(data, num))
