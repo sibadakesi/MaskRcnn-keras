@@ -9,6 +9,7 @@ import glob
 import PIL.Image
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
+import os
 
 
 class labelme2coco(object):
@@ -37,10 +38,13 @@ class labelme2coco(object):
                 data = json.load(fp)  # 加载json文件
                 self.images.append(self.image(data, num))
                 for shapes in data['shapes']:
-                    label = shapes['label'].split('_')
-                    if label[0] not in self.label:
+                    label = shapes['label']
+                    if label == '_background_':  # 检查标定是否异常
+                        continue
+                        print(json_file)
+                    if label not in self.label:
                         self.categories.append(self.categorie(label))
-                        self.label.append(label[0])
+                        self.label.append(label)
                     points = shapes['points']
                     self.annotations.append(self.annotation(points, label, num))
                     self.annID += 1
@@ -55,7 +59,8 @@ class labelme2coco(object):
         image['height'] = height
         image['width'] = width
         image['id'] = num + 1
-        image['file_name'] = data['imagePath'].split('/')[-1]
+        #image['file_name'] = data['imagePath'].split('/')[-1] # windows会出问题
+        image['file_name'] = os.path.split(data['imagePath'])[1]
         # if image['file_name'] == '229.jpg':
         #    a=1
         self.height = height
@@ -65,9 +70,9 @@ class labelme2coco(object):
 
     def categorie(self, label):
         categorie = {}
-        categorie['supercategory'] = label[0]
+        categorie['supercategory'] = label
         categorie['id'] = len(self.label) + 1  # 0 默认为背景
-        categorie['name'] = label[0]
+        categorie['name'] = label
         return categorie
 
     def annotation(self, points, label, num):
@@ -87,7 +92,7 @@ class labelme2coco(object):
 
     def getcatid(self, label):
         for categorie in self.categories:
-            if label[0] == categorie['name']:
+            if label == categorie['name']:
                 return categorie['id']
         return -1
 
