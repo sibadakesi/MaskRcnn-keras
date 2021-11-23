@@ -38,7 +38,7 @@ class labelme2coco(object):
                 data = json.load(fp)  # 加载json文件
                 self.images.append(self.image(data, num))
                 for shapes in data['shapes']:
-                    label = shapes['label']
+                    label = shapes['label'].replace('1','').replace('2','').replace('3','').replace('4','')
                     if label == '_background_':  # 检查标定是否异常
                         continue
                         print(json_file)
